@@ -1,6 +1,6 @@
 # users-api-flask-mysql
 
-Users API application with Flask and MySQL
+Users API application with Flask and MySQL (a fork of [kubernetes-flask-mysql](https://github.com/Rikkraan/kubernetes-flask-mysql))
 
 
 ## Quickstart
