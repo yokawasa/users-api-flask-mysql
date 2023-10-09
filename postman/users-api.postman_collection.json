@@ -1,10 +1,7 @@
 {
 	"info": {
-		"_postman_id": "c978c53c-ae7b-4230-8706-abac6f15deaf",
-		"name": "users-api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27917608",
-		"_collection_link": "https://postman.postman.co/workspace/yoichi-randoms~02ee4c57-0300-4ba2-92a7-0cf77c46d28a/collection/27917608-c978c53c-ae7b-4230-8706-abac6f15deaf?action=share&source=collection_link&creator=27917608"
+		"name": "Users API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -13,11 +10,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/users",
+					"raw": "{{base_url}}/users",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"users"
 					]
@@ -32,7 +28,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.collectionVariables.set(\"user_id\", pm.response.json().user_id);"
+							"pm.collectionVariables.set(\"user_id\", pm.response.json().user_id);",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -43,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"yoichi\",\n    \"email\": \"yoichi@example.com\",\n    \"pwd\": \"yoichipass\"\n}",
+					"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"email\": \"dummy.{{$timestamp}}@example.com\",\n    \"pwd\": \"{{$randomPassword}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -51,11 +48,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/create",
+					"raw": "{{base_url}}/create",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"create"
 					]
@@ -69,11 +65,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/user/:id",
+					"raw": "{{base_url}}/user/:id",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"user",
 						":id"
@@ -95,7 +90,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"yoichi\",\n    \"email\": \"yoichi@example.com\",\n    \"pwd\": \"yoichipass\",\n    \"user_id\": {{user_id}}\n}",
+					"raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"email\": \"updated.{{$timestamp}}@example.com\",\n    \"pwd\": \"{{$randomPassword}}\",\n    \"user_id\": {{user_id}}\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -103,11 +98,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/update",
+					"raw": "{{base_url}}/update",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"update"
 					]
@@ -118,14 +112,13 @@
 		{
 			"name": "Delete user",
 			"request": {
-				"method": "GET",
+				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/delete/:id",
+					"raw": "{{base_url}}/delete/:id",
 					"host": [
-						"localhost"
+						"{{base_url}}"
 					],
-					"port": "8080",
 					"path": [
 						"delete",
 						":id"
@@ -141,10 +134,35 @@
 			"response": []
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "user_id",
 			"value": ""
+		},
+		{
+			"key": "base_url",
+			"value": "localhost:8080",
+			"type": "string"
 		}
 	]
 }
