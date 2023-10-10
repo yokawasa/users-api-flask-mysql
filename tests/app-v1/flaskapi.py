@@ -16,6 +16,16 @@ app.config["MYSQL_DATABASE_PORT"] = int(os.getenv("MYSQL_SERVICE_PORT"))
 mysql.init_app(app)
 
 
+def get_users():
+  conn = mysql.connect()
+  cursor = conn.cursor()
+  cursor.execute("SELECT * FROM users")
+  rows = cursor.fetchall()
+  cursor.close()
+  conn.close()
+  return rows
+
+
 @app.route("/")
 def index():
     """Function to test the functionality of the API"""
@@ -42,6 +52,7 @@ def add_user():
             last_inserted_id = cursor.lastrowid
             cursor.close()
             conn.close()
+            # resp = jsonify("User created successfully!")
             resp = jsonify({"message": "User created successfully!", "user_id": last_inserted_id})
             resp.status_code = 200
             return resp
@@ -55,12 +66,7 @@ def add_user():
 def users():
   """Function to retrieve all users from the MySQL database"""
   try:
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users")
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    rows = get_users()
     resp = jsonify(rows)
     resp.status_code = 200
     return resp
@@ -72,13 +78,14 @@ def users():
 def user(user_id):
     """Function to get information of a specific user in the MSQL database"""
     try:
-        conn = mysql.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE user_id=%s", user_id)
-        row = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        resp = jsonify(row)
+        rows = get_users()
+        target_row = None
+        for row in rows:
+          print(row[1])  # assuming user_id is the first column in the table
+          if row[0] == user_id:
+            target_row = row
+            break
+        resp = jsonify(target_row)
         resp.status_code = 200
         return resp
     except Exception as exception:

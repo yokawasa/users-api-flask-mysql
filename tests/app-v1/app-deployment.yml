@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskapi-deployment-v1
+  labels:
+    app: flaskapi-v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flaskapi-v1
+  template:
+    metadata:
+      labels:
+        app: flaskapi-v1
+    spec:
+      containers:
+        - name: flaskapi
+          image: flask-api:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          env:
+            - name: db_root_password
+              valueFrom:
+                secretKeyRef:
+                  name: flaskapi-secrets
+                  key: db_root_password
+            - name: db_name
+              value: flaskapi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service-v1
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: flaskapi-v1
+  type: LoadBalancer
