@@ -25,7 +25,7 @@ cd app
 docker build . -t flask-api
 
 cd ../mysql
-docker build . -t mysql:5.7
+docker build . -t mysql:5.7 --platform linux/x86_64
 
 # load images to the KIND cluster
 kind load docker-image flask-api --name kind
