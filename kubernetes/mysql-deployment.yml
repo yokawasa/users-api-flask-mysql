@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:5.7
+        image: ghcr.io/yokawasa/users-api-flask-mysql/mysql:5.7
         imagePullPolicy: Never
         env:
         - name: MYSQL_ROOT_PASSWORD

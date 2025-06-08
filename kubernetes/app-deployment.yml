@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: flaskapi
-          image: flask-api
+          image: ghcr.io/yokawasa/users-api-flask-mysql/flask-api:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 5000

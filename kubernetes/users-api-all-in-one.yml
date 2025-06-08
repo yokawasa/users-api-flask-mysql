@@ -25,7 +25,6 @@ spec:
     requests:
       storage: 2Gi
 ---
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,7 +43,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql:5.7
+        image: ghcr.io/yokawasa/users-api-flask-mysql/mysql:5.7
         imagePullPolicy: Never
         env:
         - name: MYSQL_ROOT_PASSWORD
@@ -62,8 +61,6 @@ spec:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
-
-
 ---
 apiVersion: v1
 kind: Service
@@ -88,7 +85,6 @@ type: Opaque
 data:
   db_root_password: YWRtaW4=
 ---
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -107,7 +103,7 @@ spec:
     spec:
       containers:
         - name: flaskapi
-          image: flask-api
+          image: ghcr.io/yokawasa/users-api-flask-mysql/flask-api:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 5000
@@ -119,7 +115,6 @@ spec:
                   key: db_root_password
             - name: db_name
               value: flaskapi
-
 ---
 apiVersion: v1
 kind: Service
