@@ -44,7 +44,7 @@ spec:
       containers:
       - name: mysql
         image: ghcr.io/yokawasa/users-api-flask-mysql/mysql:5.7
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -103,8 +103,8 @@ spec:
     spec:
       containers:
         - name: flaskapi
-          image: ghcr.io/yokawasa/users-api-flask-mysql/flask-api:latest
-          imagePullPolicy: Never
+          image: ghcr.io/yokawasa/users-api-flask-mysql/flask-api:0.0.1
+          imagePullPolicy: 
           ports:
             - containerPort: 5000
           env:
