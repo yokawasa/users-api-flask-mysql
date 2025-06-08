@@ -2,22 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flaskapi-deployment
+  name: usersapi-deployment
   labels:
-    app: flaskapi
+    app: usersapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flaskapi
+      app: usersapi
   template:
     metadata:
       labels:
-        app: flaskapi
+        app: usersapi
     spec:
       containers:
-        - name: flaskapi
-          image: ghcr.io/yokawasa/users-api-flask-mysql/flask-api:0.0.1
+        - name: usersapi
+          image: ghcr.io/yokawasa/users-api-flask-mysql/users-api:0.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
@@ -25,21 +25,21 @@ spec:
             - name: db_root_password
               valueFrom:
                 secretKeyRef:
-                  name: flaskapi-secrets
+                  name: usersapi-secrets
                   key: db_root_password
             - name: db_name
-              value: flaskapi
+              value: usersapi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-service
+  name: usersapi-service
 spec:
   ports:
   - port: 5000
     protocol: TCP
     targetPort: 5000
   selector:
-    app: flaskapi
+    app: usersapi
   type: LoadBalancer

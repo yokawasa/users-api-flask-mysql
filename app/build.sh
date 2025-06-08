@@ -1,1 +1,1 @@
-docker build . -t flask-api
+docker build . -t users-api
