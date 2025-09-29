@@ -42,14 +42,14 @@ Check all pods are running
 kubectl get po
 
 NAME                                   READY   STATUS    RESTARTS   AGE
-flaskapi-deployment-59bcb745ff-sfdtf   1/1     Running   2          7m53s
+usersapi-59bcb745ff-sfdtf              1/1     Running   2          7m53s
 mysql-6b47c788c6-blzlc                 1/1     Running   0          7m43s
 ```
 
-Finally port porward svc/flask-service port of 5000 to localhost:8080
+Finally port porward svc/users port of 5000 to localhost:8080
 
 ```bash
-kubectl port-forward svc/flask-service 8080:5000
+kubectl port-forward svc/usersapi 8080:5000
 ```
 
 You can access the service
@@ -66,13 +66,13 @@ Build container images and load them to the KIND cluster
 
 ```bash
 cd app
-docker build . -t flask-api
+docker build . -t users-api
 
 cd ../mysql
 docker build . -t mysql:5.7 --platform linux/x86_64
 
 # load images to the KIND cluster
-kind load docker-image flask-api --name kind
+kind load docker-image users-api --name kind
 kind load docker-image mysql:5.7 --name kind
 ```
 
@@ -80,9 +80,9 @@ kind load docker-image mysql:5.7 --name kind
 
 ```bash
 echo $PAT | docker login ghcr.io -u yokawasa --password-stdin
-docker tag flask-api ghcr.io/yokawasa/users-api-flask-mysql/flask-api:0.0.1
+docker tag users-api ghcr.io/yokawasa/users-api-flask-mysql/users-api:0.0.1
 docker tag mysql:5.7 ghcr.io/yokawasa/users-api-flask-mysql/mysql:5.7
-docker push ghcr.io/yokawasa/users-api-flask-mysql/flask-api:0.0.1
+docker push ghcr.io/yokawasa/users-api-flask-mysql/users-api:0.0.1
 docker push ghcr.io/yokawasa/users-api-flask-mysql/mysql:5.7
 ```
 
@@ -92,8 +92,8 @@ Finally, update the container image property value in app-deployment.yml and mys
 
 > kubernetes/app-deployment.yml
 ```yaml
-# image: ghcr.io/yokawasa/users-api-flask-mysql/flask-api:latest
-image: flask-api
+# image: ghcr.io/yokawasa/users-api-flask-mysql/users-api:latest
+image: users-api
 ```
 
 > kubernetes/mysql-deployment.yml
