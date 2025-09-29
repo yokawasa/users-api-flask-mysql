@@ -88,7 +88,7 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: usersapi-deployment
+  name: usersapi
   labels:
     app: usersapi
 spec:
@@ -119,7 +119,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: usersapi-service
+  name: usersapi
 spec:
   ports:
   - port: 5000
